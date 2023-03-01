@@ -35,15 +35,13 @@ class CLIPWrapper(pl.LightningModule):
     @property
     def num_training_steps(self) -> int:
         """Total training steps inferred from datamodule and devices."""
-        dataset = self.train_dataloader()
+
         if self.trainer.max_steps:
             return self.trainer.max_steps
 
-        dataset_size = len(dataset)
-
         num_devices = max(1, self.trainer.num_gpus, self.trainer.num_processes)
 
-        return (dataset_size // num_devices) * self.trainer.max_epochs
+        return (len(self.train_dataloader()) // num_devices) * self.trainer.max_epochs
 
     # Training loss: https://github.com/openai/CLIP/issues/83
     # Mini-batching thanks to https://github.com/crowsonkb / https://twitter.com/RiversHaveWings
