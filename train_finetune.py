@@ -26,10 +26,9 @@ def main(hparams):
     model.teacher = copy.deepcopy(model.model)
 
     dm = TextImageDataModule.from_argparse_args(hparams, num_workers = int(multiprocessing.cpu_count()-1))
-    trainer = Trainer.from_argparse_args(hparams, precision=16, max_epochs=32, max_steps=110, log_every_n_steps=1,
+    trainer = Trainer.from_argparse_args(hparams, precision=16, max_epochs=32, max_steps=200, log_every_n_steps=1,
                                          accelerator='gpu', devices=1)
     trainer.fit(model, dm)
-    model.model.save_pretrained("finetuned_model")
 
 
 if __name__ == '__main__':
