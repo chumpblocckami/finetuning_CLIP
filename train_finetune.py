@@ -26,8 +26,7 @@ def main(hparams):
     model.teacher = copy.deepcopy(model.model)
 
     dm = TextImageDataModule.from_argparse_args(hparams, num_workers = int(multiprocessing.cpu_count()-1))
-    trainer = Trainer.from_argparse_args(hparams, precision=16, max_epochs=32, max_steps=200, log_every_n_steps=1,
-                                         accelerator='gpu', devices=1)
+    trainer = Trainer.from_argparse_args(hparams, precision=16, max_epochs=32, max_steps=200, log_every_n_steps=10, accelerator='gpu', devices=0, save_weights_only=True)
     trainer.fit(model, dm)
 
 
