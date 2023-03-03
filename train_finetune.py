@@ -29,7 +29,6 @@ def main(hparams):
     trainer = Trainer.from_argparse_args(hparams, precision=16, max_epochs=32)
     trainer.fit(model, dm)
 
-
 if __name__ == '__main__':
     parser = ArgumentParser()
     parser.add_argument('--minibatch_size', type=int, default=0)

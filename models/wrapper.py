@@ -8,7 +8,7 @@ import yaml
 import copy
 from cosine_annealing_warmup import CosineAnnealingWarmupRestarts
 from .model import CLIP
-
+import os
 
 class CLIPWrapper(pl.LightningModule):
     def __init__(self,
@@ -157,7 +157,8 @@ class CustomCLIPWrapper(CLIPWrapper):
                  kl_coeff=1.0,
                  avg_word_embs=False
                  ):
-        with open('models/configs/RN.yaml') as fin:
+        absolute_path = os.path.dirname(os.path.abspath(__file__))
+        with open(absolute_path + 'models/configs/RN.yaml') as fin:
             config = yaml.safe_load(fin)['RN50']
         super().__init__('RN50', config, minibatch_size)
         del self.model.visual
